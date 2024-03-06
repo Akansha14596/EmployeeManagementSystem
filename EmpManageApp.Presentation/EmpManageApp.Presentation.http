@@ -1,0 +1,6 @@
+@EmpManageApp.Presentation_HostAddress = http://localhost:5120
+
+GET {{EmpManageApp.Presentation_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
