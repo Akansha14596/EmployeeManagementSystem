@@ -13,9 +13,13 @@ namespace EmpManageApp.Presentation.Controllers
     public class EmployeeController : ControllerBase
     {
         private readonly IEmployeeRepository _employeeRepository;
+        private readonly ILogger<EmployeeController> _logger;
 
-        public EmployeeController(IEmployeeRepository employeeRepository)
+
+        public EmployeeController(ILogger<EmployeeController> logger, IEmployeeRepository employeeRepository)
         {
+            _logger = logger;
+
             _employeeRepository = employeeRepository;
         }
 
@@ -24,6 +28,8 @@ namespace EmpManageApp.Presentation.Controllers
         public async Task<IActionResult> GetAllEmployees()
         {
             var employees = await _employeeRepository.GetAllEmployeesAsync();
+            _logger.LogInformation("Employee retrieved successfully. ID: {Id}, Name: {Name}");
+
             return Ok(employees);
         }
 
@@ -33,8 +39,12 @@ namespace EmpManageApp.Presentation.Controllers
             var employee = await _employeeRepository.GetEmployeeByIdAsync(id);
             if (employee == null)
             {
+                _logger.LogError("Coudn't retrieve Employee with ID: {Id}", id);
+
                 return NotFound();
             }
+            _logger.LogInformation("Employee retrieved successfully. ID: {Id}, Name: {Name}", employee.EmployeeID, employee.FirstName);
+
             return Ok(employee);
         }
 
