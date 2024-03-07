@@ -24,8 +24,8 @@ namespace EmpManageApp.Infrastructure.Repositories
             string sql = @"INSERT INTO Employee (EmployeeID, FirstName, LastName, Email, Phone, DepartmentID, RoleID, IsActive)
                            VALUES (@EmployeeID, @FirstName, @LastName, @Email, @Phone, @DepartmentID, @RoleID, @IsActive);
                            SELECT CAST(SCOPE_IDENTITY() as int)";
-            int newId = await _connection.ExecuteScalarAsync<int>(sql, employee);
-         //   employee.EmployeeID = newId;
+            await _connection.ExecuteScalarAsync<int>(sql, employee);
+         // employee.EmployeeID = newId;
             return employee;
         }
 
